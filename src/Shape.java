@@ -7,7 +7,7 @@
 
 		@Override
 		public String toString() {
-			return String.format(shape.RACECAR);
+			return 
 		}
 	}
 	}

@@ -28,7 +28,19 @@ public Shape getShape() {
 }
 
 public GamePiece movesFirst(GamePiece a, GamePiece b) {
-	for
-	9
+	if(a.priority > b.priority) {
+		return b;
+	}
+	else if(b.priority > a.priority) {
+		return a;
+	}
+	else return a;
+	
 }
+
+@Override
+public String toString() {
+	return "GamePiece [appearance=" + appearance + ", priority=" + priority + "]";
+}
+
 }
