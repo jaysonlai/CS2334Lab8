@@ -1,14 +1,13 @@
 
-public class GamePiece {
-enum gamePiece{
-	RED_RACER,
-	BLUE_RACER,
+public enum GamePiece{
+	RED_RACER(GamePieceAppearance(RED,RACECAR), 0),
+	BLUE_RACER(),
 	MAGENTA_RACER,
 	RED_THIMBLE,
 	BLUE_BOOT,
 	GREEN_BOOT,
 	YELLOW_BOOT;
-}
+
 
 private GamePieceAppearance appearance;
 private int priority;
