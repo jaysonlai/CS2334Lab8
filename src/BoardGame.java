@@ -43,7 +43,8 @@ public class BoardGame {
 	 * Remember that a player is uniquely associated with a single game piece, so a "player at a location" is essentially the same as a "game piece at a location".
 	 */
 	public boolean addPlayer(String playerName, GamePiece gamePiece, Location initialLocation) {
-		
+		playerLocations().put(playerName, initialLocation);
+		playerPieces().put(playerName,  gamePiece);
 	}
 	
 	

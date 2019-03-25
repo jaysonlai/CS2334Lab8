@@ -1,7 +1,8 @@
 
-public enum GamePiece{
-	RED_RACER(GamePieceAppearance(RED,RACECAR), 0),
-	BLUE_RACER(),
+public enum GamePiece {
+	
+	RED_RACER, 
+	BLUE_RACER,
 	MAGENTA_RACER,
 	RED_THIMBLE,
 	BLUE_BOOT,
