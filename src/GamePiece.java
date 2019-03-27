@@ -3,7 +3,7 @@ public enum GamePiece {
 	
 	RED_RACER (new GamePieceAppearance(Color.RED, Shape.RACECAR), 0),
 	BLUE_RACER(new GamePieceAppearance(Color.BLUE, Shape.RACECAR), 2),
-	MAGENTA_RACER(new GamePieceAppearance( Color.RED, Shape.RACECAR), 1),
+	MAGENTA_RACER(new GamePieceAppearance( Color.MAGENTA, Shape.RACECAR), 1),
 	RED_THIMBLE(new GamePieceAppearance(Color.RED, Shape.THIMBLE), 10),
 	BLUE_BOOT(new GamePieceAppearance(Color.BLUE, Shape.BOOT), 5),
 	GREEN_BOOT(new GamePieceAppearance(Color.GREEN, Shape.BOOT), 8),
@@ -34,11 +34,8 @@ public static GamePiece movesFirst(GamePiece a, GamePiece b) {
 	if(a.priority > b.priority) {
 		return b;
 	}
-	else if(b.priority > a.priority) {
-		return a;
+	else {return a;
 	}
-	else return a;
-	
 }
 
 @Override
