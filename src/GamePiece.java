@@ -1,13 +1,13 @@
 
 public enum GamePiece {
 	
-	RED_RACER, 
-	BLUE_RACER,
-	MAGENTA_RACER,
-	RED_THIMBLE,
-	BLUE_BOOT,
-	GREEN_BOOT,
-	YELLOW_BOOT;
+	RED_RACER (new GamePieceAppearance(Color.RED, Shape.RACECAR), 0),
+	BLUE_RACER(new GamePieceAppearance(Color.BLUE, Shape.RACECAR), 2),
+	MAGENTA_RACER(new GamePieceAppearance( Color.RED, Shape.RACECAR), 1),
+	RED_THIMBLE(new GamePieceAppearance(Color.RED, Shape.THIMBLE), 10),
+	BLUE_BOOT(new GamePieceAppearance(Color.BLUE, Shape.BOOT), 5),
+	GREEN_BOOT(new GamePieceAppearance(Color.GREEN, Shape.BOOT), 8),
+	YELLOW_BOOT(new GamePieceAppearance(Color.YELLOW, Shape.BOOT), 7);
 
 
 private GamePieceAppearance appearance;
@@ -20,14 +20,14 @@ private GamePiece(GamePieceAppearance appearance, int priority) {
 }
 
 public Color getColor() {
-	return this.getColor();
+	return this.appearance.getColor();
 }
 
 public Shape getShape() {
-	return this.getShape();
+	return this.appearance.getShape();
 }
 
-public GamePiece movesFirst(GamePiece a, GamePiece b) {
+public static GamePiece movesFirst(GamePiece a, GamePiece b) {
 	if(a.priority > b.priority) {
 		return b;
 	}
@@ -40,7 +40,12 @@ public GamePiece movesFirst(GamePiece a, GamePiece b) {
 
 @Override
 public String toString() {
-	return "GamePiece [appearance=" + appearance + ", priority=" + priority + "]";
+	return String.format("%s: a %s %s with priority %d",  
+			
+			this.name(), 
+			appearance.getColor().toString(), 
+			appearance.getShape().toString(),
+			priority);
 }
 
 }

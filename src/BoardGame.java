@@ -11,21 +11,17 @@ public class BoardGame {
 	/*
 	 * Each player is associated with a unique game piece (i.e.
 	 */
-	protected  LinkedHashMap<String, GamePiece> playerPieces() {
-		
-		
-	}
+	protected  LinkedHashMap<String, GamePiece> playerPieces;
 	/*
 	 * Each player places their game piece at a location on the board, 
 	 * as defined by the Location enum.
 	 */
-	protected LinkedHashMap<String, Location> playerLocations() {
-		
-	}
+	protected LinkedHashMap<String, Location> playerLocations;
 	
 	//BoardGame constructor.
 	public BoardGame() {
-		
+		playerPieces = new LinkedHashMap<String,GamePiece>();
+		playerLocations = new LinkedHashMap<String, Location> ();
 	}
 	
 	
@@ -43,8 +39,15 @@ public class BoardGame {
 	 * Remember that a player is uniquely associated with a single game piece, so a "player at a location" is essentially the same as a "game piece at a location".
 	 */
 	public boolean addPlayer(String playerName, GamePiece gamePiece, Location initialLocation) {
-		playerLocations().put(playerName, initialLocation);
-		playerPieces().put(playerName,  gamePiece);
+		if(playerPieces.containsKey(playerName)) {
+			return false;
+		}
+		else {
+			playerLocations.put(playerName, initialLocation);
+			playerPieces.put(playerName,  gamePiece);
+			return true;
+		}
+		
 	}
 	
 	
@@ -53,7 +56,7 @@ public class BoardGame {
 	 * Remember that game pieces are unique, and are assigned to a unique player (i.e. it is a one-to-one relationship).
 	 */
 	public GamePiece getPlayerGamePiece(String playerName) {
-		return playerPieces().get(playerName);
+		return playerPieces.get(playerName);
 		
 	}
 	
@@ -63,13 +66,13 @@ public class BoardGame {
 	 * Remember that game pieces are unique, and are assigned to a unique player (i.e. it is a one-to-one relationship).
 	 */
 	public String getPlayerWithGamePiece(GamePiece gamePiece) {
-		String here = "";
-		for (String name : playerPieces().keySet())  {
-			if(playerPieces().get(name)==gamePiece) {
-				here=name;
-			}
+		Set<String> player = playerPieces.keySet();
+		for(String playname: player) {
+		if(gamePiece == playerPieces.get(playname)) {
+			return playname;
 		}
-		return here;
+		}
+		return null;
 			}
 
 	
@@ -82,7 +85,7 @@ public class BoardGame {
 	 */
 	public void movePlayer(String playerName, Location newLocation) {
 		
-		playerLocations().put(playerName, newLocation);
+		playerLocations.put(playerName, newLocation);
 			}
 	
 	
@@ -97,20 +100,19 @@ public class BoardGame {
 	 * You should leverage the code in the movePlayer() method.
 	 */
 	public String[] moveTwoPlayers(String[] playerNames, Location[] newLocations) {
-		for(int index = 0; index < playerNames.length; index++) {
-			for(int jndex = 0; jndex < playerNames.length; jndex++) {
-				if(index != jndex) {
-					GamePiece one = getPlayerGamePiece(playerNames[index]);
-					GamePiece two = getPlayerGamePiece(playerNames[jndex]);
-					
-					GamePiece three = one.movesFirst(one,two);
-				}
-				
-				
-			}
-		
+		String here ="";
+		GamePiece one = GamePiece.movesFirst(playerPieces.get(playerNames[0]),playerPieces.get(playerNames[1]));
+		String name = getPlayerWithGamePiece(one);
+		if(name.equals(playerNames[1])) {
+			here = playerNames[0];
+			playerNames[0] = name;
+			playerNames[1] = here;
 		}
 		
+		movePlayer(playerNames[0], newLocations[0]);
+		movePlayer(playerNames[1], newLocations[1]);
+
+		return playerNames;
 	}
 	
 	
@@ -118,7 +120,7 @@ public class BoardGame {
 	 *Gets the location of a player. Be careful that you don't confuse this with getPlayerLocations!
 	 */
 	public Location getPlayersLocation(String player) {
-		return playerLocations().get(player);
+		return playerLocations.get(player);
 	}
 	
 	
@@ -126,65 +128,36 @@ public class BoardGame {
 	 * Given a location, find all players at that location.
 	 */
 	public ArrayList<String> getPlayersAtLocation(Location loc) {
-		int counter = 0;
-		Set<String> players = playerLocations().keySet();
-		for (Location place: playerLocations().values()) {
-			if(loc==playerLocations().values()) {
-				counter++;
-			}
-			else {
-				players.remove(counter);
-				
+		ArrayList<String> players = new  ArrayList<String>();
+		Set<String> here = playerLocations.keySet();
+		
+		for(String now: here) {
+			if(playerLocations.get(now) == loc) {
+				players.add(now);
 			}
 		}
-		ArrayList<String> playersHere = new ArrayList<String>();
-		 for(String index: players) {
-			 playersHere.add(index);
-		 }
-		 return playersHere;
+		return players;
 
 	}
 	
 	//Given a location
 	//find the game pieces associated with all the players at that location.
 	public ArrayList<GamePiece> getGamePiecesAtLocation(Location loc) {
-		Set<GamePiece>pieces = new HashSet<GamePiece>();
-		int counter = 0;
-		Set<String> players = playerLocations().keySet();
-		for (Location place: playerLocations().values()) {
-			if(loc==playerLocations().values()) {
-				counter++;
-			}
-			else {
-				players.remove(counter);
-				
-			}
-		}
-		int counter2 = 0;
- ArrayList<String> newPlay = new ArrayList<String>();
- for(String index: players) {
-	 newPlay.add(index);
- }
-    
-	
-		for (String matchName: playerPieces().keySet()) {
-        	   if(newPlay.get(counter2)==matchName) {
-        		   pieces.add(playerPieces().get(matchName));
-        	   }
-    } 
-		ArrayList<GamePiece> returning = new ArrayList<GamePiece>();
-		for(GamePiece newOnes: pieces) {
-			returning.add(newOnes);
-		}
-		return returning;
+	ArrayList<GamePiece> pieces = new ArrayList<GamePiece>();
+	for(String here: getPlayersAtLocation(loc)) {
+		pieces.add(getPlayerGamePiece(here));
+	}
+	return pieces;
 	}
 	
 	
 	/*
 	 * Gets all players recorded in the game.
+	 * @param
+	 * @return
 	 */
 	public Set<String> getPlayers() {
-		Set<String>keys = playerPieces().keySet();
+		Set<String>keys = playerPieces.keySet();
 		return keys;	
 	}
 	
@@ -194,7 +167,7 @@ public class BoardGame {
 	 */
 	public Set<Location> getPlayerLocations() {
 		Set<Location>places= new HashSet<Location>();
-		for (Location place: playerLocations().values()) {
+		for (Location place: playerLocations.values()) {
         	   places.add(place);
     } 
 		
@@ -209,7 +182,7 @@ public class BoardGame {
 	 */
 	public Set<GamePiece> getPlayerPieces() {
 		Set<GamePiece>pieces = new HashSet<GamePiece>();
-		for (GamePiece piece: playerPieces().values()) {
+		for (GamePiece piece: playerPieces.values()) {
         	   pieces.add(piece);
     } 
 		
