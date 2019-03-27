@@ -44,7 +44,7 @@ public String toString() {
 			
 			this.name(), 
 			appearance.getColor().toString(), 
-			appearance.getShape().toString(),
+			appearance.getShape().name(),
 			priority);
 }
 

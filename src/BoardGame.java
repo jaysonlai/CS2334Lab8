@@ -74,7 +74,7 @@ public class BoardGame {
 	public String getPlayerWithGamePiece(GamePiece gamePiece) {
 		Set<String> player = playerPieces.keySet();
 		for(String playname: player) {
-		if(gamePiece == playerPieces.get(playname)) {
+		if(playerPieces.get(playname)==gamePiece) {
 			return playname;
 		}
 		}
@@ -90,7 +90,7 @@ public class BoardGame {
 	 * @param playerName, newLocation
 	 */
 	public void movePlayer(String playerName, Location newLocation) {
-		
+		playerLocations.remove(playerName);
 		playerLocations.put(playerName, newLocation);
 			}
 	
@@ -112,8 +112,9 @@ public class BoardGame {
 	 */
 	public String[] moveTwoPlayers(String[] playerNames, Location[] newLocations) {
 		
-		GamePiece one = GamePiece.movesFirst(playerPieces.get(playerNames[0]),playerPieces.get(playerNames[1]));
+		GamePiece one = GamePiece.movesFirst(playerPieces.get(playerNames[0]), playerPieces.get(playerNames[1]));
 		String name = getPlayerWithGamePiece(one);
+		
 		if(name.equals(playerNames[1])) {
 			String here = playerNames[0];
 			playerNames[0] = name;
@@ -188,8 +189,8 @@ public class BoardGame {
 	 */
 	public Set<Location> getPlayerLocations() {
 		Set<Location>places= new HashSet<Location>();
-		for (Location place: playerLocations.values()) {
-        	   places.add(place);
+		for (String here: playerLocations.keySet()) {
+        	   places.add(getPlayersLocation(here));
     } 
 		
 		return places;
