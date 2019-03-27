@@ -6,7 +6,7 @@ public enum Shape{
 	@Override
 	
 	public String toString() {
-		return name().toLowerCase();
+		return this.name().toLowerCase();
 	}
 
 	}

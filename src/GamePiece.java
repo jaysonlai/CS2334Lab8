@@ -19,14 +19,17 @@ private GamePiece(GamePieceAppearance appearance, int priority) {
 	
 }
 
+// returns the color of the game piece
 public Color getColor() {
 	return this.appearance.getColor();
 }
 
+// returns the shape of the game piece
 public Shape getShape() {
 	return this.appearance.getShape();
 }
 
+// determines the priority between two game pieces
 public static GamePiece movesFirst(GamePiece a, GamePiece b) {
 	if(a.priority > b.priority) {
 		return b;
